@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>907562178765-fo31amhdfuph6u6iccrb31nbbvbbcdn9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.907562178765-fo31amhdfuph6u6iccrb31nbbvbbcdn9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBV67B8ro4HtbuEUICEBQ5bzuRMopRI58o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>907562178765</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.GbMasca.Eventos</string>
+	<key>PROJECT_ID</key>
+	<string>eventoslogin-a40fe</string>
+	<key>STORAGE_BUCKET</key>
+	<string>eventoslogin-a40fe.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:907562178765:ios:580412e16f3a1a12</string>
+	<key>DATABASE_URL</key>
+	<string>https://eventoslogin-a40fe.firebaseio.com</string>
+</dict>
+</plist>
