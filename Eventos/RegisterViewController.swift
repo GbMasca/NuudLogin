@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FBSDKLoginKit
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -20,11 +20,23 @@ class RegisterViewController: UIViewController {
     
     
     var canRegister : Bool = true
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    
+        
+    }
+    
+    @objc func viewTapped(){
+        dismissKeyboard()
+    }
+    func dismissKeyboard(){
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,7 +49,7 @@ class RegisterViewController: UIViewController {
         checkForErrors()
         
         if canRegister{
-            createUser(email: emailTextField.text!, password: passwordTextField.text!, username: usernameTextField.text!)
+            createUser(email: emailTextField.text!, password: passwordTextField.text!)
         }
         else{
             print("falha na criacao")
@@ -54,14 +66,13 @@ class RegisterViewController: UIViewController {
                 print("Failed to login: \(error.localizedDescription)")
                 return
             }
-            
             guard let accessToken = FBSDKAccessToken.current() else {
                 print("Failed to get access token")
                 return
             }
             
             let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-            
+
             Auth.auth().signInAndRetrieveData(with: credential, completion: { (user, error) in
                 if error != nil {
                     print(error!)
@@ -70,12 +81,8 @@ class RegisterViewController: UIViewController {
                     print("login com FB feito")
                     self.performSegue(withIdentifier: "goToSetUpPasswordPage", sender: self)
                 }
-                
             })
-            
         }
-        
-        
     }
         
     
@@ -83,13 +90,14 @@ class RegisterViewController: UIViewController {
         
         checkForEmailEquality()
         checkForPasswordEquality()
-        //checkForExistence(username: usernameTextField.text!)
-        
     }
     
     func checkForEmailEquality(){
         
-        print(emailCheckTextField.text!, emailTextField.text!)
+        if emailTextField.text == nil{
+            canRegister = false
+        }
+        
         if emailTextField.text != emailCheckTextField.text {
             print("email no bate")
             canRegister = false
@@ -101,7 +109,10 @@ class RegisterViewController: UIViewController {
     }
     
     func checkForPasswordEquality(){
-        print(passwordCheckTextField.text!, passwordTextField.text!)
+        
+        if passwordTextField.text == nil{
+            canRegister = false
+        }
         
         if passwordTextField.text != passwordCheckTextField.text{
             print("Senha no bate")
@@ -127,11 +138,8 @@ class RegisterViewController: UIViewController {
             canRegister = false
         }
     }
-        
     
-
-        
-    func createUser(email: String, password: String, username: String){
+    func createUser(email: String, password: String){
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if error != nil{
                 print("Esse é o erro \(error!) Esse é o erro")
@@ -140,31 +148,10 @@ class RegisterViewController: UIViewController {
             }
             else{
                 print("deu")
-                //self.addNewUser(username: username, email: email)
-                //self.updateGlobalUserList()
-                self.performSegue(withIdentifier: "goToLoggedPage" , sender: self)
+                self.performSegue(withIdentifier: "goToSetUpProfilePage" , sender: self)
             }
         }
         
     }
-    
-    
-//    func addNewUser(username: String, email: String){
-//        //let newUser = User(email: email, name: username)
-//
-//        let userListDB = Database.database().reference().child("UserList")
-//
-//        //userDict.updateValue(newUser, forKey: username)
-//
-//        userListDB.child(username).setValue(email){
-//            (error, ref) in
-//            if error != nil{
-//                print(error!)
-//            }
-//            else{
-//                print("Salvou certin")
-//                //print("Added:", self.userDict[username]!)
-//            }
-//        }
-//    }
+
 }

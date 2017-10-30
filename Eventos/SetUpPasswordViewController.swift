@@ -11,11 +11,27 @@ import Firebase
 
 class SetUpPasswordViewController: UIViewController {
 
+    @IBOutlet weak var passwordCheckTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var errorMsgLabel: UILabel!
+    
+    var canSetUp : Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+        
+        
+    }
+    
+    @objc func viewTapped(){
+        dismissKeyboard()
+    }
+    func dismissKeyboard(){
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,15 +40,42 @@ class SetUpPasswordViewController: UIViewController {
     }
     
     @IBAction func setUpPressed(_ sender: Any) {
-        Auth.auth().currentUser?.updatePassword(to: passwordTextField.text!, completion: { (error) in
-            if error != nil{
-                print (error!)
+        checkForError()
+        if canSetUp{
+            Auth.auth().currentUser?.updatePassword(to: passwordTextField.text!, completion: { (error) in
+                if error != nil{
+                    print (error!)
+                }
+                else{
+                    print("Mudou a senha com sucesso")
+                    self.performSegue(withIdentifier: "goToSetUpProfilePage", sender: self)
+                }
+            })
+            
+        }
+        
+        
+    }
+    
+    func checkForError(){
+        if passwordTextField.text! != passwordCheckTextField.text!{
+            canSetUp = false
+            updateErrorMsg(error: 1)
+            if passwordTextField.text!.count < 6{
+                canSetUp = false
+                updateErrorMsg(error: 2)
             }
-            else{
-                print("Mudou a senha com sucesso")
-                self.performSegue(withIdentifier: "goToLoggedPage", sender: self)
-            }
-        })
+        }
+    }
+    
+    func updateErrorMsg(error: Int){
+        
+        if error == 1{
+            errorMsgLabel.text = "Senhas diferentes"
+        }
+        if error == 2{
+            errorMsgLabel.text = "Senha muito pequena. Ela deve conter no minimo 6 caracteres"
+        }
         
     }
     

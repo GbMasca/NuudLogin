@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FBSDKCoreKit
 
 class LoggedViewController: UIViewController {
 
@@ -15,8 +16,9 @@ class LoggedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+            label.text = Auth.auth().currentUser?.email
 
-        label.text = Auth.auth().currentUser?.email
     }
 
     override func didReceiveMemoryWarning() {
