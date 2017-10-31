@@ -10,13 +10,16 @@ import UIKit
 import Firebase
 import FBSDKLoginKit
 
+
 class RegisterViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var emailCheckTextField: UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordCheckTextField: UITextField!
+    @IBOutlet weak var errorMsg: UILabel!
+    @IBOutlet weak var registerButton: UIButton!
     
     
     var canRegister : Bool = true
@@ -24,12 +27,60 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.emailTextField.delegate = self
+        self.nameTextField.delegate = self
+        self.passwordTextField.delegate = self
+        self.passwordCheckTextField.delegate = self
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
+        
+        
+        errorMsg.text = ""
+        registerButton.isEnabled = false
     
         
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        errorMsg.text = ""
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == passwordCheckTextField{
+            checkForErrors()
+        }
+        
+        updateButtonColor()
+        
+    }
+    
+    func updateButtonColor(){
+        
+        if emailTextField.text != "" && nameTextField.text != "" && passwordTextField.text != "" && passwordCheckTextField.text != ""{
+            let color = UIColor(red: 57, green: 222, blue: 191)
+            registerButton.isEnabled = true
+            registerButton.setTitleColor(color, for: .normal)
+        }
+        else{
+            let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+            
+            registerButton.isEnabled = false
+            registerButton.setTitleColor(color, for: .normal)
+            
+        }
+        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        nameTextField.resignFirstResponder()
+        passwordCheckTextField.resignFirstResponder()
+        
+        if emailTextField.text != "" && nameTextField.text != "" && passwordTextField.text != "" && passwordCheckTextField.text != ""{
+            registerPressed(self)
+        }
+        
+        return true
     }
     
     @objc func viewTapped(){
@@ -56,56 +107,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @IBAction func loginWithFacebookPressed(_ sender: Any) {
-        
-        
-        let fbLoginManager = FBSDKLoginManager()
-        
-        fbLoginManager.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], from: self) { (result, error) in
-            if let error = error {
-                print("Failed to login: \(error.localizedDescription)")
-                return
-            }
-            guard let accessToken = FBSDKAccessToken.current() else {
-                print("Failed to get access token")
-                return
-            }
-            
-            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-
-            Auth.auth().signInAndRetrieveData(with: credential, completion: { (user, error) in
-                if error != nil {
-                    print(error!)
-                }
-                else{
-                    print("login com FB feito")
-                    self.performSegue(withIdentifier: "goToSetUpPasswordPage", sender: self)
-                }
-            })
-        }
-    }
-        
-    
     func checkForErrors(){
-        
-        checkForEmailEquality()
         checkForPasswordEquality()
-    }
-    
-    func checkForEmailEquality(){
-        
-        if emailTextField.text == nil{
-            canRegister = false
-        }
-        
-        if emailTextField.text != emailCheckTextField.text {
-            print("email no bate")
-            canRegister = false
-            emailCheckTextField.text = ""
-        }
-        else{
-            print("Email checking done")
-        }
     }
     
     func checkForPasswordEquality(){
@@ -115,43 +118,62 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         }
         
         if passwordTextField.text != passwordCheckTextField.text{
-            print("Senha no bate")
-            passwordTextField.text = ""
-            passwordCheckTextField.text = ""
+            updateErrorMsg(error: 17000)
             canRegister = false
-        }
-        else{
-            print("password checking done")
         }
     }
     
-    func checkForExistence(username: String){
-        
-        let userListSnapshot = DataSnapshot()
-        
-        if !userListSnapshot.hasChild("UserList/\(username)"){
-            
-            print("Existence Check")
-        }
-        else{
-            print("Usuario ja cadastrado")
-            canRegister = false
-        }
-    }
     
     func createUser(email: String, password: String){
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if error != nil{
                 print("Esse é o erro \(error!) Esse é o erro")
-                //updateErrorMsg(error: error!)
+                self.decodeErrorMsg(error: error!)
                 //Error Domain=FIRAuthErrorDomain Code=17007 "The email address is already in use by another account." UserInfo={NSLocalizedDescription=The email address is already in use by another account., error_name=ERROR_EMAIL_ALREADY_IN_USE}
             }
             else{
-                print("deu")
-                self.performSegue(withIdentifier: "goToSetUpProfilePage" , sender: self)
+                self.errorMsg.text = "Cadastro feito com sucesso"
             }
         }
-        
     }
-
+    
+    func decodeErrorMsg(error: Error){
+        
+        let errorStr = String(describing: error)
+        
+        let indexOfError = errorStr.index(of: "1") ?? errorStr.endIndex
+        let indexOfError2 = errorStr.index(of: "\"") ?? errorStr.endIndex
+        
+        let str = errorStr[indexOfError..<indexOfError2]
+        
+        let errorCode = (str as NSString).integerValue
+        
+        updateErrorMsg(error: errorCode)
+        
+        print("Aqui", (str as NSString).integerValue, "Aqui")
+    }
+    
+    func updateErrorMsg(error: Int){
+        if error == 17007{
+            errorMsg.text = "Email já cadastrado"
+            emailTextField.text = ""
+            updateButtonColor()
+        }
+        if error == 17026{
+            errorMsg.text = "Senha muito peguena"
+            passwordTextField.text = ""
+            passwordCheckTextField.text = ""
+            updateButtonColor()
+        }
+        if error == 17008{
+            errorMsg.text = "Email invalido"
+            emailTextField.text = ""
+            updateButtonColor()
+        }
+        if error == 17000{
+            errorMsg.text = "Senhas não iguais"
+            updateButtonColor()
+        }
+    }
+    
 }

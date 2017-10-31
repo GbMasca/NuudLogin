@@ -10,16 +10,78 @@ import UIKit
 import Firebase
 import FBSDKLoginKit
 
-class LoginViewController: UIViewController{
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        let newRed = CGFloat(red)/255
+        let newGreen = CGFloat(green)/255
+        let newBlue = CGFloat(blue)/255
+        
+        self.init(red: newRed, green: newGreen, blue: newBlue, alpha: 1.0)
+    }
+}
+
+
+class LoginViewController: UIViewController, UITextFieldDelegate{
     
     
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
-    
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var errorMsg: UILabel!
     var canLogin : Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.emailTextField.delegate = self
+        self.passwordTextField.delegate = self
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+        
+        loginButton.isEnabled = false
+        errorMsg.text = ""
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        
+        return true
+    }
+    
+    func updateButtonColor(){
+        
+        if emailTextField.text != "" && passwordTextField.text != ""{
+            let color = UIColor(red: 57, green: 222, blue: 191)
+            loginButton.isEnabled = true
+            loginButton.setTitleColor(color, for: .normal)
+        }
+        else{
+            let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+            
+            loginButton.isEnabled = false
+            loginButton.setTitleColor(color, for: .normal)
+            
+        }
+        
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateButtonColor()
+        
+        if emailTextField.text != "" && passwordTextField.text != ""{
+            loginPressed(self)
+        }
+        
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        errorMsg.text = ""
+    }
+    @objc func viewTapped(){
+        dismissKeyboard()
+    }
+    func dismissKeyboard(){
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,51 +89,44 @@ class LoginViewController: UIViewController{
     }
     
     @IBAction func loginPressed(_ sender: Any) {
-        
+    
         Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
             if error != nil{
-                print(error!)
-
+                self.decodeErrorMsg(error: error!)
             }
             else{
                 print("login: Deu")
-                self.performSegue(withIdentifier: "goToLoggedPage", sender: self)
+                self.errorMsg.text = "Login feito"
             }
         }
     }
     
-    @IBAction func loginWithFacebookPressedDesabled(_ sender: Any) {
+    func decodeErrorMsg(error: Error){
         
+        let errorStr = String(describing: error)
         
-        let fbLoginManager = FBSDKLoginManager()
+        let indexOfError = errorStr.index(of: "1") ?? errorStr.endIndex
+        let indexOfError2 = errorStr.index(of: "\"") ?? errorStr.endIndex
         
-        fbLoginManager.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], from: self) { (result, error) in
-            if let error = error {
-                print("Failed to login: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let accessToken = FBSDKAccessToken.current() else {
-                print("Failed to get access token")
-                return
-            }
-            
-            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-    
-            Auth.auth().signInAndRetrieveData(with: credential, completion: { (user, error) in
-                if error != nil {
-                    print(error!)
-                }
-                else{
-                    print("login com FB feito")
-                    self.performSegue(withIdentifier: "goToLoggedPage", sender: self)
-                }
-                
-            })
-            
-        }
+        let str = errorStr[indexOfError..<indexOfError2]
+        
+        let errorCode = (str as NSString).integerValue
+        
+        updateErrorMsg(error: errorCode)
+        
+        print("Aqui", (str as NSString).integerValue, "Aqui")
     }
     
-    func checkForExistence(username: String){
+    func updateErrorMsg(error: Int){
+        if error == 17009{
+            errorMsg.text = "Senha incorreta"
+            passwordTextField.text = ""
+            updateButtonColor()
+        }
+        if error == 17011{
+            errorMsg.text = "Email não cadastrado"
+            passwordTextField.text = ""
+            updateButtonColor()
+        }
     }
 }
