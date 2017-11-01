@@ -7,11 +7,16 @@
 //
 
 import UIKit
+import Firebase
+import FBSDKLoginKit
 
 class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
     
+    // MARK: - Declare Instace Variables
+    
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var scView: UIScrollView!
+    @IBOutlet weak var facebookButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,35 +35,22 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
         self.navigationController?.navigationBar.shadowImage = UIImage()
 
         loadScrollView()
-        
-        
-   
     }
     
-    @IBAction func loginPressed(_ sender: Any) {
-        print("Pressed")
-        performSegue(withIdentifier: "goToLoginPage", sender: self)
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: - Scroll View Related
     
     func loadScrollView(){
 
         loadFirstPage()
         loadSecondPage()
         loadThirdPage()
-        
-        //let windowHeight = self.view.frame.size.height
-        let windowWidth = self.view.frame.size.width
-        print(windowWidth)
-        print(scView.frame.width)
-        
-        
-        
-    
     }
-    
     func loadFirstPage(){
-        
-        //let windowHeight = self.view.frame.size.height
         let windowWidth = self.view.frame.size.width
         print(windowWidth)
         
@@ -87,10 +79,7 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
         self.scView.addSubview(icon)
         
     }
-    
-    
     func loadSecondPage(){
-        //let windowHeight = self.view.frame.size.height
         let windowWidth = self.view.frame.size.width
         print(windowWidth)
         
@@ -120,7 +109,6 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
         
     }
     func loadThirdPage(){
-        //let windowHeight = self.view.frame.size.height
         let windowWidth = self.view.frame.size.width
         
         let titleText = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 2, y: (scView.frame.height/2 - 18)), size: CGSize(width: windowWidth, height: 36)))
@@ -144,27 +132,41 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let viewWidth: CGFloat = scrollView.frame.size.width
-        // content offset - tells by how much the scroll view has scrolled.
         let pageNumber = floor((scrollView.contentOffset.x - viewWidth / 50) / viewWidth) + 1
         pageControl.currentPage = Int(pageNumber)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
+    // MARK: - User Actions
+    
+    @IBAction func loginPressed(_ sender: Any) {
+        print("Pressed")
+        performSegue(withIdentifier: "goToLoginPage", sender: self)
     }
     
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func loginWithFacebookPressed(_ sender: Any) {
+        let fbLoginManager = FBSDKLoginManager()
+        
+        fbLoginManager.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], from: self) { (result, error) in
+            if let error = error {
+                print("Failed to login: \(error.localizedDescription)")
+                return
+            }
+            guard let accessToken = FBSDKAccessToken.current() else {
+                print("Failed to get access token")
+                return
+            }
+            
+            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+            
+            Auth.auth().signInAndRetrieveData(with: credential, completion: { (user, error) in
+                if error != nil {
+                    print(error!)
+                }
+                else{
+                    print("login com FB feito")
+                }
+            })
+        }
     }
-    */
-
 }

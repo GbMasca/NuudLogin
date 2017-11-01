@@ -20,14 +20,16 @@ extension UIColor {
     }
 }
 
-
 class LoginViewController: UIViewController, UITextFieldDelegate{
     
-    
+    // MARK: - Declare Instace Variables
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var errorMsg: UILabel!
+    @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var errorViewHeightConstraint: NSLayoutConstraint!
+    
     var canLogin : Bool = true
     
     override func viewDidLoad() {
@@ -38,44 +40,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
-        loginButton.isEnabled = false
         errorMsg.text = ""
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        emailTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
-        
-        return true
-    }
-    
-    func updateButtonColor(){
-        
-        if emailTextField.text != "" && passwordTextField.text != ""{
-            let color = UIColor(red: 57, green: 222, blue: 191)
-            loginButton.isEnabled = true
-            loginButton.setTitleColor(color, for: .normal)
-        }
-        else{
-            let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
-            
-            loginButton.isEnabled = false
-            loginButton.setTitleColor(color, for: .normal)
-            
-        }
-        
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        updateButtonColor()
-        
-        if emailTextField.text != "" && passwordTextField.text != ""{
-            loginPressed(self)
-        }
-        
-    }
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        errorMsg.text = ""
+        errorView.isHidden = true
     }
     @objc func viewTapped(){
         dismissKeyboard()
@@ -83,23 +49,69 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     func dismissKeyboard(){
         view.endEditing(true)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    // MARK: - Text Field Related
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        
+        if emailTextField.text != "" && passwordTextField.text != ""{
+            loginPressed(self)
+        }
+        return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateButtonColor()
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.errorViewHeightConstraint.constant = 68
+            self.errorMsg.text = ""
+            self.view.layoutIfNeeded()
+        }) { (canHide) in
+            if canHide{
+                self.errorView.isHidden = true
+            }
+        }
+    }
+    
+    // MARK: - Button Update
+    
+    func updateButtonColor(){
+        
+        if emailTextField.text != "" && passwordTextField.text != ""{
+            let color = UIColor(red: 57, green: 222, blue: 191)
+            loginButton.setTitleColor(color, for: .normal)
+        }
+        else{
+            let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+            updateErrorMsg(error: 16000)
+            loginButton.setTitleColor(color, for: .normal)
+        }
+    }
+    
+    // MARK: - Register User
     
     @IBAction func loginPressed(_ sender: Any) {
     
         Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
             if error != nil{
+                print("Aqui o erro", error!)
                 self.decodeErrorMsg(error: error!)
             }
             else{
                 print("login: Deu")
-                self.errorMsg.text = "Login feito"
+                self.loginButton.setTitle("LOGOU", for: .normal)
             }
         }
     }
+    
+    // MARK: - Error Msg
     
     func decodeErrorMsg(error: Error){
         
@@ -119,14 +131,37 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     func updateErrorMsg(error: Int){
         if error == 17009{
-            errorMsg.text = "Senha incorreta"
-            passwordTextField.text = ""
+            UIView.animate(withDuration: 0.5, animations: {
+                self.errorView.isHidden = false
+                self.errorViewHeightConstraint.constant = 149
+                self.errorMsg.text = "SENHA INCORRETA"
+                self.view.layoutIfNeeded()
+            })
             updateButtonColor()
         }
         if error == 17011{
-            errorMsg.text = "Email não cadastrado"
-            passwordTextField.text = ""
-            updateButtonColor()
+            UIView.animate(withDuration: 0.5, animations: {
+                self.errorView.isHidden = false
+                self.errorViewHeightConstraint.constant = 149
+                self.errorMsg.text = "EMAIL NÃO CADASTRADO"
+                self.view.layoutIfNeeded()
+            })
+        }
+        if error == 17008{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.errorView.isHidden = false
+                self.errorViewHeightConstraint.constant = 149
+                self.errorMsg.text = "EMAIL INVALIDO"
+                self.view.layoutIfNeeded()
+            })
+        }
+        if error == 16000{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.errorView.isHidden = false
+                self.errorViewHeightConstraint.constant = 149
+                self.errorMsg.text = "CAMPOS NÃO PREENCHIDOS"
+                self.view.layoutIfNeeded()
+            })
         }
     }
 }

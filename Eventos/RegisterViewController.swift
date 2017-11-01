@@ -12,17 +12,17 @@ import FBSDKLoginKit
 
 
 class RegisterViewController: UIViewController, UITextFieldDelegate {
-
-    @IBOutlet weak var usernameTextField: UITextField!
+    // MARK: - Declare instance variables
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordCheckTextField: UITextField!
     @IBOutlet weak var errorMsg: UILabel!
     @IBOutlet weak var registerButton: UIButton!
-    
-    
+    @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var errorViewHeightConstraint: NSLayoutConstraint!
     var canRegister : Bool = true
+    var isComplete : Bool = true
 
     
     override func viewDidLoad() {
@@ -37,39 +37,46 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         
         
         errorMsg.text = ""
-        registerButton.isEnabled = false
-    
-        
+        errorView.isHidden = true
+        errorViewHeightConstraint.constant = 68
     }
+    
+    @objc func viewTapped(){
+        dismissKeyboard()
+    }
+    func dismissKeyboard(){
+        view.endEditing(true)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    // MARK: - Text Field Related
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        errorMsg.text = ""
+        var shouldHide = true
+        if textField != passwordCheckTextField{
+            shouldHide = checkForPasswordEquality()
+        }
+        if shouldHide{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.errorViewHeightConstraint.constant = 68
+                self.errorMsg.text = ""
+                self.view.layoutIfNeeded()
+            }) { (canHide) in
+                if canHide{
+                    self.errorView.isHidden = true
+                }
+            }
+        }
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == passwordCheckTextField{
-            checkForErrors()
+            checkPasswordEquality()
         }
-        
         updateButtonColor()
-        
     }
-    
-    func updateButtonColor(){
-        
-        if emailTextField.text != "" && nameTextField.text != "" && passwordTextField.text != "" && passwordCheckTextField.text != ""{
-            let color = UIColor(red: 57, green: 222, blue: 191)
-            registerButton.isEnabled = true
-            registerButton.setTitleColor(color, for: .normal)
-        }
-        else{
-            let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
-            
-            registerButton.isEnabled = false
-            registerButton.setTitleColor(color, for: .normal)
-            
-        }
-        
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
@@ -83,59 +90,55 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    @objc func viewTapped(){
-        dismissKeyboard()
-    }
-    func dismissKeyboard(){
-        view.endEditing(true)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
-    @IBAction func registerPressed(_ sender: Any) {
-        
-        canRegister = true
-        checkForErrors()
-        
-        if canRegister{
-            createUser(email: emailTextField.text!, password: passwordTextField.text!)
+
+    
+    // MARK: - Error Ckecking and button update
+    func updateButtonColor(){
+        if emailTextField.text != "" && nameTextField.text != "" && passwordTextField.text != "" && passwordCheckTextField.text != ""{
+            let color = UIColor(red: 57, green: 222, blue: 191)
+            registerButton.setTitleColor(color, for: .normal)
         }
         else{
-            print("falha na criacao")
+            let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+            registerButton.setTitleColor(color, for: .normal)
         }
     }
-    
     func checkForErrors(){
-        checkForPasswordEquality()
+        canRegister = checkForPasswordEquality()
+        isComplete = checkForComplition()
     }
     
-    func checkForPasswordEquality(){
-        
-        if passwordTextField.text == nil{
-            canRegister = false
+    func checkForComplition() -> Bool {
+        if emailTextField.text != "" && nameTextField.text != "" && passwordTextField.text != "" && passwordCheckTextField.text != ""{
+            return true
         }
-        
+        else{
+            updateErrorMsg(error: 16000)
+            return false
+        }
+    }
+    
+    func checkForPasswordEquality() -> Bool{
+        if passwordTextField.text == nil{
+            return false
+        }
         if passwordTextField.text != passwordCheckTextField.text{
             updateErrorMsg(error: 17000)
-            canRegister = false
+            return false
+        }
+        else{
+           return true
         }
     }
     
-    
-    func createUser(email: String, password: String){
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-            if error != nil{
-                print("Esse é o erro \(error!) Esse é o erro")
-                self.decodeErrorMsg(error: error!)
-                //Error Domain=FIRAuthErrorDomain Code=17007 "The email address is already in use by another account." UserInfo={NSLocalizedDescription=The email address is already in use by another account., error_name=ERROR_EMAIL_ALREADY_IN_USE}
-            }
-            else{
-                self.errorMsg.text = "Cadastro feito com sucesso"
-            }
+    func checkPasswordEquality(){
+        if passwordTextField.text != passwordCheckTextField.text{
+            updateErrorMsg(error: 17000)
         }
     }
+    
+    // MARK: - Error Msg Update
     
     func decodeErrorMsg(error: Error){
         
@@ -155,25 +158,81 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     func updateErrorMsg(error: Int){
         if error == 17007{
-            errorMsg.text = "Email já cadastrado"
             emailTextField.text = ""
+            UIView.animate(withDuration: 0.5, animations: {
+                self.errorView.isHidden = false
+                self.errorViewHeightConstraint.constant = 149
+                self.errorMsg.text = "EMAIL JÁ CADASTRADO"
+                self.view.layoutIfNeeded()
+            })
             updateButtonColor()
         }
         if error == 17026{
-            errorMsg.text = "Senha muito peguena"
             passwordTextField.text = ""
             passwordCheckTextField.text = ""
+            UIView.animate(withDuration: 0.5, animations: {
+                self.errorView.isHidden = false
+                self.errorViewHeightConstraint.constant = 149
+                self.errorMsg.text = "SENHA MUITO PEQUENA"
+                self.view.layoutIfNeeded()
+            })
+            //print(errorMsg.text)
             updateButtonColor()
         }
         if error == 17008{
-            errorMsg.text = "Email invalido"
             emailTextField.text = ""
+            UIView.animate(withDuration: 0.5, animations: {
+                self.errorView.isHidden = false
+                self.errorViewHeightConstraint.constant = 149
+                self.errorMsg.text = "EMAIL INVALIDO"
+                self.view.layoutIfNeeded()
+            })
             updateButtonColor()
         }
         if error == 17000{
-            errorMsg.text = "Senhas não iguais"
+            UIView.animate(withDuration: 0.5, animations: {
+                self.errorView.isHidden = false
+                self.errorViewHeightConstraint.constant = 149
+                self.errorMsg.text = "SENHAS NÃO CORRESPONDEM"
+                self.view.layoutIfNeeded()
+            })
             updateButtonColor()
+        }
+        if error == 16000{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.errorView.isHidden = false
+                self.errorViewHeightConstraint.constant = 149
+                self.errorMsg.text = "CAMPOS NÃO PREENCHIDOS"
+                self.view.layoutIfNeeded()
+            })
         }
     }
     
+    // MARK: - Create User
+    
+    @IBAction func registerPressed(_ sender: Any) {
+        
+        canRegister = true
+        isComplete = true
+        checkForErrors()
+        
+        
+        if canRegister && isComplete{
+            createUser(email: emailTextField.text!, password: passwordTextField.text!)
+        }
+        else{
+            print("falha na criacao")
+        }
+    }
+    func createUser(email: String, password: String){
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            if error != nil{
+                print("Esse é o erro \(error!) Esse é o erro")
+                self.decodeErrorMsg(error: error!)
+            }
+            else{
+                self.registerButton.setTitle("REGISTROU", for: .normal)
+            }
+        }
+    }
 }
