@@ -26,7 +26,10 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
         let windowHeight = self.view.frame.size.height
         let frameSize = scView.frame.size.height
         
-        scView.frame = CGRect(origin: CGPoint(x:CGFloat(0), y:(windowHeight/2 - (frameSize/2))), size: CGSize(width: windowWidth, height: frameSize))
+        //scView.frame = CGRect(origin: CGPoint(x:CGFloat(0), y:(windowHeight/2 - (frameSize/2))), size: CGSize(width: windowWidth, height: frameSize))
+        //scView.frame = CGRect(origin: CGPoint(x:CGFloat(0), y: 80), size: CGSize(width: windowWidth, height: frameSize))
+        scView.frame = CGRect(origin: CGPoint(x:CGFloat(0), y:(windowHeight/2 - 230)), size: CGSize(width: windowWidth, height: frameSize))
+        
         
         scView.contentSize = CGSize(width: windowWidth * 3, height: scView.frame.size.height)
         pageControl.numberOfPages = 3
@@ -54,28 +57,21 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
         let windowWidth = self.view.frame.size.width
         print(windowWidth)
         
-        let titleText = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 0, y: (scView.frame.height/2 - 18)), size: CGSize(width: windowWidth, height: 36)))
-        titleText.text = "Descontos frequentes"
+        let titleText = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 0, y: (55*scView.frame.height/100 - 18)), size: CGSize(width: windowWidth, height: 36)))
+        titleText.text = "Ticket Eletronico"
         titleText.font = UIFont(name: "Helvetica Neue", size: CGFloat(22))
         titleText.textAlignment = NSTextAlignment.center
         self.scView.addSubview(titleText)
         
-        let subTitleText1 = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 0, y: (scView.frame.height/2 + 18)), size: CGSize(width: windowWidth, height: 20)))
-        subTitleText1.text = "Quanto mais voçê usa"
+        let subTitleText1 = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 0, y: (55*scView.frame.height/100 + 18)), size: CGSize(width: windowWidth, height: 20)))
+        subTitleText1.text = "Sempre em suas mãos"
         subTitleText1.font = UIFont(name: "Helvetica Neue", size: CGFloat(17))
         subTitleText1.textAlignment = NSTextAlignment.center
         subTitleText1.alpha = 0.60
         self.scView.addSubview(subTitleText1)
         
-        let subTitleText2 = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 0, y: (scView.frame.height/2 + 38)), size: CGSize(width: windowWidth, height: 20)))
-        subTitleText2.text = "mais voçê ganha"
-        subTitleText2.font = UIFont(name: "Helvetica Neue", size: CGFloat(17))
-        subTitleText2.textAlignment = NSTextAlignment.center
-        subTitleText2.alpha = 0.60
-        self.scView.addSubview(subTitleText2)
-        
-        let icon = UIView(frame: CGRect(origin: CGPoint(x: (windowWidth/3), y: 0), size: CGSize(width: (windowWidth/3), height: (windowWidth/3))))
-        icon.backgroundColor = UIColor(red: 255, green: 0, blue: 0, alpha: 1)
+        let icon = UIImageView(frame: CGRect(origin: CGPoint(x: (2*windowWidth/7), y: 0), size: CGSize(width: (3*windowWidth/7), height: (3*windowWidth/7))))
+        icon.image = UIImage(named: "Ticket")
         self.scView.addSubview(icon)
         
     }
@@ -83,49 +79,56 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
         let windowWidth = self.view.frame.size.width
         print(windowWidth)
         
-        let titleText = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 1, y: (scView.frame.height/2 - 18)), size: CGSize(width: windowWidth, height: 36)))
+        let titleText = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 1, y: (55*scView.frame.height/100 - 18)), size: CGSize(width: windowWidth, height: 36)))
         titleText.text = "Adquira em um clique"
         titleText.font = UIFont(name: "Helvetica Neue", size: CGFloat(22))
         titleText.textAlignment = NSTextAlignment.center
         self.scView.addSubview(titleText)
         
-        let subTitleText1 = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 1, y: (scView.frame.height/2 + 18)), size: CGSize(width: windowWidth, height: 20)))
+        let subTitleText1 = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 1, y: (55*scView.frame.height/100 + 18)), size: CGSize(width: windowWidth, height: 20)))
         subTitleText1.text = "Uma conta só sua"
         subTitleText1.font = UIFont(name: "Helvetica Neue", size: CGFloat(17))
         subTitleText1.textAlignment = NSTextAlignment.center
         subTitleText1.alpha = 0.60
         self.scView.addSubview(subTitleText1)
         
-        let subTitleText2 = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 1, y: (scView.frame.height/2 + 38)), size: CGSize(width: windowWidth, height: 20)))
+        let subTitleText2 = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 1, y: (55*scView.frame.height/100 + 38)), size: CGSize(width: windowWidth, height: 20)))
         subTitleText2.text = "Basta clicar e comprar"
         subTitleText2.font = UIFont(name: "Helvetica Neue", size: CGFloat(17))
         subTitleText2.textAlignment = NSTextAlignment.center
         subTitleText2.alpha = 0.60
         self.scView.addSubview(subTitleText2)
         
-        let icon = UIView(frame: CGRect(origin: CGPoint(x: (4*windowWidth/3), y: 0), size: CGSize(width: (windowWidth/3), height: (windowWidth/3))))
-        icon.backgroundColor = UIColor(red: 255, green: 0, blue: 0, alpha: 1)
+        let icon = UIImageView(frame: CGRect(origin: CGPoint(x: (9*windowWidth/7), y: 0), size: CGSize(width: (3*windowWidth/7), height: (3*windowWidth/7))))
+        icon.image = UIImage(named: "Click")
         self.scView.addSubview(icon)
         
     }
     func loadThirdPage(){
         let windowWidth = self.view.frame.size.width
         
-        let titleText = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 2, y: (scView.frame.height/2 - 18)), size: CGSize(width: windowWidth, height: 36)))
-        titleText.text = "Ticket Eletronico"
+        let titleText = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 2, y: (55*scView.frame.height/100 - 18)), size: CGSize(width: windowWidth, height: 36)))
+        titleText.text = "Descontos Frequentes"
         titleText.font = UIFont(name: "Helvetica Neue", size: CGFloat(22))
         titleText.textAlignment = NSTextAlignment.center
         self.scView.addSubview(titleText)
         
-        let subTitleText = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 2, y: (scView.frame.height/2 + 18)), size: CGSize(width: windowWidth, height: 20)))
-        subTitleText.text = "Sempre em suas mãos"
-        subTitleText.font = UIFont(name: "Helvetica Neue", size: CGFloat(17))
-        subTitleText.textAlignment = NSTextAlignment.center
-        subTitleText.alpha = 0.60
-        self.scView.addSubview(subTitleText)
+        let subTitleText1 = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 2, y: (55*scView.frame.height/100 + 18)), size: CGSize(width: windowWidth, height: 20)))
+        subTitleText1.text = "Quanto mais você usa"
+        subTitleText1.font = UIFont(name: "Helvetica Neue", size: CGFloat(17))
+        subTitleText1.textAlignment = NSTextAlignment.center
+        subTitleText1.alpha = 0.60
+        self.scView.addSubview(subTitleText1)
         
-        let icon = UIView(frame: CGRect(origin: CGPoint(x: (7*windowWidth/3), y: 0), size: CGSize(width: (windowWidth/3), height: (windowWidth/3))))
-        icon.backgroundColor = UIColor(red: 255, green: 0, blue: 0, alpha: 1)
+        let subTitleText2 = UILabel(frame: CGRect(origin: CGPoint(x: scView.frame.width * 2, y: (55*scView.frame.height/100 + 38)), size: CGSize(width: windowWidth, height: 20)))
+        subTitleText2.text = "mais você ganha"
+        subTitleText2.font = UIFont(name: "Helvetica Neue", size: CGFloat(17))
+        subTitleText2.textAlignment = NSTextAlignment.center
+        subTitleText2.alpha = 0.60
+        self.scView.addSubview(subTitleText2)
+        
+        let icon = UIImageView(frame: CGRect(origin: CGPoint(x: (16*windowWidth/7), y: 0), size: CGSize(width: (3*windowWidth/7), height: (3*windowWidth/7))))
+        icon.image = UIImage(named: "Descontos")
         self.scView.addSubview(icon)
         
     }

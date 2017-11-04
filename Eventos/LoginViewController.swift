@@ -106,7 +106,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
             }
             else{
                 print("login: Deu")
-                self.loginButton.setTitle("LOGOU", for: .normal)
+                //self.loginButton.setTitle("LOGOU", for: .normal)
             }
         }
     }

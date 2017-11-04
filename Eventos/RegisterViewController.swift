@@ -231,7 +231,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                 self.decodeErrorMsg(error: error!)
             }
             else{
-                self.registerButton.setTitle("REGISTROU", for: .normal)
+                //self.registerButton.setTitle("REGISTROU", for: .normal)
             }
         }
     }
