@@ -10,6 +10,7 @@
 		3301F58F1FA713CE00A022F3 /* NovoEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301F58E1FA713CE00A022F3 /* NovoEntryViewController.swift */; };
 		332090261FA07E640079A645 /* SetUpPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332090251FA07E640079A645 /* SetUpPasswordViewController.swift */; };
 		332090281FA10E1B0079A645 /* SetUpProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332090271FA10E1B0079A645 /* SetUpProfileViewController.swift */; };
+		33B300271FAE662100860E48 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B300261FAE662100860E48 /* CustomTextField.swift */; };
 		33B74DCA1F9D82170084C28F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B74DC91F9D82170084C28F /* AppDelegate.swift */; };
 		33B74DCF1F9D82170084C28F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33B74DCD1F9D82170084C28F /* Main.storyboard */; };
 		33B74DD11F9D82170084C28F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33B74DD01F9D82170084C28F /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 		33B74DE31F9DC9A10084C28F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33B74DE21F9DC99E0084C28F /* GoogleService-Info.plist */; };
 		33B74DE51F9DD1D20084C28F /* LoggedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B74DE41F9DD1D20084C28F /* LoggedViewController.swift */; };
 		33B74DE81F9DDB760084C28F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B74DE71F9DDB760084C28F /* User.swift */; };
+		33CABCF01FB05F4500B20C85 /* SetUpProfilePictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CABCEF1FB05F4500B20C85 /* SetUpProfilePictureViewController.swift */; };
 		596FA55F178EA1286A05ADBD /* Pods_Eventos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7225E49B554F844870B4B58C /* Pods_Eventos.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,7 @@
 		3301F58E1FA713CE00A022F3 /* NovoEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovoEntryViewController.swift; sourceTree = "<group>"; };
 		332090251FA07E640079A645 /* SetUpPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpPasswordViewController.swift; sourceTree = "<group>"; };
 		332090271FA10E1B0079A645 /* SetUpProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpProfileViewController.swift; sourceTree = "<group>"; };
+		33B300261FAE662100860E48 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		33B74DC61F9D82170084C28F /* Eventos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eventos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B74DC91F9D82170084C28F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33B74DCE1F9D82170084C28F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -39,6 +42,7 @@
 		33B74DE21F9DC99E0084C28F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		33B74DE41F9DD1D20084C28F /* LoggedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedViewController.swift; sourceTree = "<group>"; };
 		33B74DE71F9DDB760084C28F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		33CABCEF1FB05F4500B20C85 /* SetUpProfilePictureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpProfilePictureViewController.swift; sourceTree = "<group>"; };
 		7225E49B554F844870B4B58C /* Pods_Eventos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eventos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -106,12 +110,13 @@
 			isa = PBXGroup;
 			children = (
 				33B74DC91F9D82170084C28F /* AppDelegate.swift */,
+				3301F58E1FA713CE00A022F3 /* NovoEntryViewController.swift */,
 				33B74DDE1F9D85050084C28F /* LoginViewController.swift */,
 				33B74DE01F9D851C0084C28F /* RegisterViewController.swift */,
-				33B74DE41F9DD1D20084C28F /* LoggedViewController.swift */,
+				33CABCEF1FB05F4500B20C85 /* SetUpProfilePictureViewController.swift */,
 				332090251FA07E640079A645 /* SetUpPasswordViewController.swift */,
 				332090271FA10E1B0079A645 /* SetUpProfileViewController.swift */,
-				3301F58E1FA713CE00A022F3 /* NovoEntryViewController.swift */,
+				33B74DE41F9DD1D20084C28F /* LoggedViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -120,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				33B74DE71F9DDB760084C28F /* User.swift */,
+				33B300261FAE662100860E48 /* CustomTextField.swift */,
 			);
 			name = Module;
 			sourceTree = "<group>";
@@ -223,8 +229,10 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Fusuma/Fusuma.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -233,8 +241,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fusuma.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -290,6 +300,8 @@
 				33B74DE51F9DD1D20084C28F /* LoggedViewController.swift in Sources */,
 				33B74DCA1F9D82170084C28F /* AppDelegate.swift in Sources */,
 				332090261FA07E640079A645 /* SetUpPasswordViewController.swift in Sources */,
+				33CABCF01FB05F4500B20C85 /* SetUpProfilePictureViewController.swift in Sources */,
+				33B300271FAE662100860E48 /* CustomTextField.swift in Sources */,
 				33B74DE11F9D851C0084C28F /* RegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,6 +359,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_ACTIVITY_MODE = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -364,8 +377,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				"MTL_ENABLE_DEBUG_INFO[sdk=iphonesimulator*]" = default;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -404,6 +418,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_ACTIVITY_MODE = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -415,7 +430,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -433,6 +448,7 @@
 				INFOPLIST_FILE = Eventos/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.GbMasca.Eventos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

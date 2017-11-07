@@ -17,12 +17,18 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordCheckTextField: UITextField!
-    @IBOutlet weak var errorMsg: UILabel!
     @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var errorView: UIView!
-    @IBOutlet weak var errorViewHeightConstraint: NSLayoutConstraint!
+    
     var canRegister : Bool = true
     var isComplete : Bool = true
+    
+    var errorView : UIView = UIView()
+    var windowWidth = CGFloat(0)
+    var windowHeight = CGFloat(0)
+    var errorMsg : UILabel = UILabel()
+    var ops : UILabel = UILabel()
+    
+    var userData : [String: String] = [:]
 
     
     override func viewDidLoad() {
@@ -31,14 +37,21 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         self.nameTextField.delegate = self
         self.passwordTextField.delegate = self
         self.passwordCheckTextField.delegate = self
+        windowWidth = self.view.frame.size.width
+        windowHeight = self.view.frame.size.height
+        
+        errorView = UIView(frame: CGRect(x: 0, y: 0, width: windowWidth, height: 0))
+        self.view.addSubview(errorView)
+        UIApplication.shared.keyWindow!.addSubview(errorView)
+        errorView.backgroundColor = UIColor(red: 255, green: 108, blue: 108)
+        
+        populateErrorView()
+        editTextField()
+        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
-        
-        errorMsg.text = ""
-        errorView.isHidden = true
-        errorViewHeightConstraint.constant = 68
     }
     
     @objc func viewTapped(){
@@ -51,25 +64,43 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        hide()
+    }
     
     // MARK: - Text Field Related
     
+    func editTextField(){
+        let color : CGColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.12).cgColor
+        
+        emailTextField.layer.borderColor = color
+        emailTextField.layer.borderWidth = 2
+        emailTextField.layer.cornerRadius = 8
+        emailTextField.layer.masksToBounds = true
+        emailTextField.textAlignment = .natural
+        
+        passwordTextField.layer.borderColor = color
+        passwordTextField.layer.borderWidth = 2
+        passwordTextField.layer.cornerRadius = 8
+        passwordTextField.layer.masksToBounds = true
+        passwordTextField.textAlignment = .natural
+        
+        nameTextField.layer.borderColor = color
+        nameTextField.layer.borderWidth = 2
+        nameTextField.layer.cornerRadius = 8
+        nameTextField.layer.masksToBounds = true
+        nameTextField.textAlignment = .natural
+        
+        passwordCheckTextField.layer.borderColor = color
+        passwordCheckTextField.layer.borderWidth = 2
+        passwordCheckTextField.layer.cornerRadius = 8
+        passwordCheckTextField.layer.masksToBounds = true
+        passwordCheckTextField.textAlignment = .natural
+        
+    }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        var shouldHide = true
-        if textField != passwordCheckTextField{
-            shouldHide = checkForPasswordEquality()
-        }
-        if shouldHide{
-            UIView.animate(withDuration: 0.5, animations: {
-                self.errorViewHeightConstraint.constant = 68
-                self.errorMsg.text = ""
-                self.view.layoutIfNeeded()
-            }) { (canHide) in
-                if canHide{
-                    self.errorView.isHidden = true
-                }
-            }
-        }
+        
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == passwordCheckTextField{
@@ -98,10 +129,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         if emailTextField.text != "" && nameTextField.text != "" && passwordTextField.text != "" && passwordCheckTextField.text != ""{
             let color = UIColor(red: 57, green: 222, blue: 191)
             registerButton.setTitleColor(color, for: .normal)
+            //registerButton.isEnabled = true
         }
         else{
             let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
             registerButton.setTitleColor(color, for: .normal)
+            //registerButton.isEnabled = false
         }
     }
     func checkForErrors(){
@@ -160,10 +193,14 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         if error == 17007{
             emailTextField.text = ""
             UIView.animate(withDuration: 0.5, animations: {
-                self.errorView.isHidden = false
-                self.errorViewHeightConstraint.constant = 149
-                self.errorMsg.text = "EMAIL JÁ CADASTRADO"
+                self.unhide(error: "EMAIL JÁ CADASTRADO")
                 self.view.layoutIfNeeded()
+            }, completion: { (canHide) in
+                if canHide{
+                    UIView.animate(withDuration: 0.5, delay: 2, animations: {
+                        self.hide()
+                    })
+                }
             })
             updateButtonColor()
         }
@@ -171,10 +208,14 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             passwordTextField.text = ""
             passwordCheckTextField.text = ""
             UIView.animate(withDuration: 0.5, animations: {
-                self.errorView.isHidden = false
-                self.errorViewHeightConstraint.constant = 149
-                self.errorMsg.text = "SENHA MUITO PEQUENA"
+                self.unhide(error: "SENHA MUITO PEQUENA")
                 self.view.layoutIfNeeded()
+            }, completion: { (canHide) in
+                if canHide{
+                    UIView.animate(withDuration: 0.5, delay: 2, animations: {
+                        self.hide()
+                    })
+                }
             })
             //print(errorMsg.text)
             updateButtonColor()
@@ -182,30 +223,72 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         if error == 17008{
             emailTextField.text = ""
             UIView.animate(withDuration: 0.5, animations: {
-                self.errorView.isHidden = false
-                self.errorViewHeightConstraint.constant = 149
-                self.errorMsg.text = "EMAIL INVALIDO"
+                self.unhide(error: "EMAIL INVALIDO")
                 self.view.layoutIfNeeded()
+            }, completion: { (canHide) in
+                if canHide{
+                    UIView.animate(withDuration: 0.5, delay: 2, animations: {
+                        self.hide()
+                    })
+                }
             })
             updateButtonColor()
         }
         if error == 17000{
             UIView.animate(withDuration: 0.5, animations: {
-                self.errorView.isHidden = false
-                self.errorViewHeightConstraint.constant = 149
-                self.errorMsg.text = "SENHAS NÃO CORRESPONDEM"
+                self.unhide(error: "SENHAS NÃO CORRESPONDEM")
                 self.view.layoutIfNeeded()
+            }, completion: { (canHide) in
+                if canHide{
+                    UIView.animate(withDuration: 0.5, delay: 2, animations: {
+                        self.hide()
+                    })
+                }
             })
             updateButtonColor()
         }
         if error == 16000{
             UIView.animate(withDuration: 0.5, animations: {
-                self.errorView.isHidden = false
-                self.errorViewHeightConstraint.constant = 149
-                self.errorMsg.text = "CAMPOS NÃO PREENCHIDOS"
+                self.unhide(error: "CAMPOS NÃO PREENCHIDOS")
                 self.view.layoutIfNeeded()
+            }, completion: { (canHide) in
+                if canHide{
+                    UIView.animate(withDuration: 0.5, delay: 2, animations: {
+                        self.hide()
+                    })
+                }
             })
         }
+    }
+    
+    func unhide(error: String) {
+        self.errorView.frame = CGRect(x: 0, y: 0, width: self.windowWidth, height: 85)
+        self.ops.frame = CGRect(x: 16, y: (errorView.frame.height - 55), width: (errorView.frame.width - 32), height: 21)
+        self.errorMsg.frame = CGRect(x: 16, y: (errorView.frame.height - 35), width: (errorView.frame.width - 32), height: 21)
+        errorMsg.text = error
+    }
+    
+    func hide(){
+        self.errorView.frame = CGRect(x: 0, y: 0, width: self.windowWidth, height: 0)
+        self.ops.frame = CGRect(x: 16, y: (errorView.frame.height - 55), width: (errorView.frame.width - 32), height: 0)
+        self.errorMsg.frame = CGRect(x: 16, y: (errorView.frame.height - 35), width: (errorView.frame.width - 32), height: 0)
+    }
+    func populateErrorView(){
+        
+        ops = UILabel(frame: CGRect(x: 16, y: (errorView.frame.height - 55), width: (errorView.frame.width - 32), height: 0))
+        ops.text = "OPS!"
+        ops.textAlignment = .center
+        ops.textColor = UIColor.white
+        ops.font = UIFont(name: "HelveticaNeue-Bold", size: CGFloat(14))
+        errorView.addSubview(ops)
+        
+        errorMsg = UILabel(frame: CGRect(x: 16, y: (errorView.frame.height - 35), width: (errorView.frame.width - 32), height: 0))
+        errorMsg.text = ""
+        errorMsg.textColor = UIColor.white
+        errorMsg.textAlignment = .center
+        errorMsg.font = UIFont(name: "HelveticaNeue-Bold", size: CGFloat(11))
+        errorView.addSubview(errorMsg)
+        
     }
     
     // MARK: - Create User
@@ -231,8 +314,16 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                 self.decodeErrorMsg(error: error!)
             }
             else{
-                //self.registerButton.setTitle("REGISTROU", for: .normal)
+                self.registerButton.isEnabled = true
+                self.userData = ["Name": self.nameTextField.text!,"Email": self.emailTextField.text!, "Photo": ""]
+                self.addToDB(data: self.userData)
+                self.performSegue(withIdentifier: "goToWelcomingPage", sender: self)
             }
         }
+    }
+    func addToDB(data: [String:String]){
+        let userID = Auth.auth().currentUser?.uid
+        let userDB = Database.database().reference().child("Users")
+        userDB.child(userID!).setValue(data)
     }
 }

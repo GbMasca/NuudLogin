@@ -9,6 +9,9 @@
 import UIKit
 import Firebase
 import FBSDKLoginKit
+import FBSDKCoreKit
+import SwiftyJSON
+
 
 class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
     
@@ -18,6 +21,7 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
     @IBOutlet weak var scView: UIScrollView!
     @IBOutlet weak var facebookButton: UIButton!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         scView.delegate = self
@@ -26,10 +30,7 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
         let windowHeight = self.view.frame.size.height
         let frameSize = scView.frame.size.height
         
-        //scView.frame = CGRect(origin: CGPoint(x:CGFloat(0), y:(windowHeight/2 - (frameSize/2))), size: CGSize(width: windowWidth, height: frameSize))
-        //scView.frame = CGRect(origin: CGPoint(x:CGFloat(0), y: 80), size: CGSize(width: windowWidth, height: frameSize))
         scView.frame = CGRect(origin: CGPoint(x:CGFloat(0), y:(windowHeight/2 - 230)), size: CGSize(width: windowWidth, height: frameSize))
-        
         
         scView.contentSize = CGSize(width: windowWidth * 3, height: scView.frame.size.height)
         pageControl.numberOfPages = 3
@@ -72,6 +73,7 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
         
         let icon = UIImageView(frame: CGRect(origin: CGPoint(x: (2*windowWidth/7), y: 0), size: CGSize(width: (3*windowWidth/7), height: (3*windowWidth/7))))
         icon.image = UIImage(named: "Ticket")
+        print("Height" ,icon.frame.height)
         self.scView.addSubview(icon)
         
     }
@@ -168,8 +170,39 @@ class NovoEntryViewController: UIViewController,UIScrollViewDelegate{
                 }
                 else{
                     print("login com FB feito")
+                    self.performSegue(withIdentifier: "goToWelcomingPage", sender: self)
+                    self.populateData()
                 }
             })
         }
+    }
+    func addToDB(data: [String:String]){
+        let userID = Auth.auth().currentUser?.uid
+        let userDB = Database.database().reference().child("Users")
+        userDB.child(userID!).setValue(data)
+    }
+    func populateData(){
+        var name : String = ""
+        var email : String  = ""
+        var url : String = ""
+        var userData : [String:String] = [:]
+        
+        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email, name, picture.type(large)"]).start {
+            (connection, result, error) -> Void in
+            if error != nil {
+                NSLog(error.debugDescription)
+                return
+            }
+            
+            let result : JSON = JSON(result!)
+            url = String(describing: result["picture"]["data"]["url"])
+            name = String(describing: result["name"])
+            email = String(describing: result["email"])
+            
+            userData = ["Name": name, "Email": email, "Photo": url]
+            print("aaaaaaaaaa", userData)
+            self.addToDB(data: userData)
+        }
+        
     }
 }

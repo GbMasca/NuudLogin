@@ -9,9 +9,16 @@ target 'Eventos' do
 pod 'Firebase', '~>4.4'
 pod 'Firebase/Database'
 pod 'Firebase/Auth'
+pod 'FirebaseStorage'
 
 pod 'Bolts'
 pod 'FBSDKCoreKit'
 pod 'FBSDKLoginKit'
+
+pod 'SwiftyJSON'
+
+pod 'Fusuma'
+
+
 
 end
