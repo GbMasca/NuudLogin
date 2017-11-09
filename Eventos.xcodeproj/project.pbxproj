@@ -20,6 +20,7 @@
 		33B74DE31F9DC9A10084C28F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33B74DE21F9DC99E0084C28F /* GoogleService-Info.plist */; };
 		33B74DE51F9DD1D20084C28F /* LoggedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B74DE41F9DD1D20084C28F /* LoggedViewController.swift */; };
 		33B74DE81F9DDB760084C28F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B74DE71F9DDB760084C28F /* User.swift */; };
+		33C727D61FB419D900BDD014 /* WelcomeLoggedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C727D51FB419D900BDD014 /* WelcomeLoggedViewController.swift */; };
 		33CABCF01FB05F4500B20C85 /* SetUpProfilePictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CABCEF1FB05F4500B20C85 /* SetUpProfilePictureViewController.swift */; };
 		596FA55F178EA1286A05ADBD /* Pods_Eventos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7225E49B554F844870B4B58C /* Pods_Eventos.framework */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,7 @@
 		33B74DE21F9DC99E0084C28F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		33B74DE41F9DD1D20084C28F /* LoggedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedViewController.swift; sourceTree = "<group>"; };
 		33B74DE71F9DDB760084C28F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		33C727D51FB419D900BDD014 /* WelcomeLoggedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeLoggedViewController.swift; sourceTree = "<group>"; };
 		33CABCEF1FB05F4500B20C85 /* SetUpProfilePictureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpProfilePictureViewController.swift; sourceTree = "<group>"; };
 		7225E49B554F844870B4B58C /* Pods_Eventos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eventos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -79,22 +81,11 @@
 		33B74DC81F9D82170084C28F /* Eventos */ = {
 			isa = PBXGroup;
 			children = (
-				33B74DE61F9DD7C80084C28F /* Module */,
-				33B74DDD1F9D83500084C28F /* Controller */,
+				33C727D01FB4188300BDD014 /* Controller */,
 				33B74DDC1F9D82BE0084C28F /* View */,
-				33B74DDB1F9D82A80084C28F /* Other Files */,
-				33B74DD01F9D82170084C28F /* Assets.xcassets */,
+				33C727D41FB4193D00BDD014 /* Module */,
 			);
 			path = Eventos;
-			sourceTree = "<group>";
-		};
-		33B74DDB1F9D82A80084C28F /* Other Files */ = {
-			isa = PBXGroup;
-			children = (
-				33B74DD51F9D82170084C28F /* Info.plist */,
-				33B74DE21F9DC99E0084C28F /* GoogleService-Info.plist */,
-			);
-			name = "Other Files";
 			sourceTree = "<group>";
 		};
 		33B74DDC1F9D82BE0084C28F /* View */ = {
@@ -106,7 +97,7 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		33B74DDD1F9D83500084C28F /* Controller */ = {
+		33C727D01FB4188300BDD014 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				33B74DC91F9D82170084C28F /* AppDelegate.swift */,
@@ -117,17 +108,30 @@
 				332090251FA07E640079A645 /* SetUpPasswordViewController.swift */,
 				332090271FA10E1B0079A645 /* SetUpProfileViewController.swift */,
 				33B74DE41F9DD1D20084C28F /* LoggedViewController.swift */,
+				33C727D51FB419D900BDD014 /* WelcomeLoggedViewController.swift */,
 			);
-			name = Controller;
+			path = Controller;
 			sourceTree = "<group>";
 		};
-		33B74DE61F9DD7C80084C28F /* Module */ = {
+		33C727D41FB4193D00BDD014 /* Module */ = {
 			isa = PBXGroup;
 			children = (
+				33C727D71FB41CC300BDD014 /* Other Files */,
 				33B74DE71F9DDB760084C28F /* User.swift */,
 				33B300261FAE662100860E48 /* CustomTextField.swift */,
 			);
-			name = Module;
+			path = Module;
+			sourceTree = "<group>";
+		};
+		33C727D71FB41CC300BDD014 /* Other Files */ = {
+			isa = PBXGroup;
+			children = (
+				33B74DD01F9D82170084C28F /* Assets.xcassets */,
+				33B74DD51F9D82170084C28F /* Info.plist */,
+				33B74DE21F9DC99E0084C28F /* GoogleService-Info.plist */,
+			);
+			name = "Other Files";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		655D568A76949D8336EA354D /* Frameworks */ = {
@@ -300,6 +304,7 @@
 				33B74DE51F9DD1D20084C28F /* LoggedViewController.swift in Sources */,
 				33B74DCA1F9D82170084C28F /* AppDelegate.swift in Sources */,
 				332090261FA07E640079A645 /* SetUpPasswordViewController.swift in Sources */,
+				33C727D61FB419D900BDD014 /* WelcomeLoggedViewController.swift in Sources */,
 				33CABCF01FB05F4500B20C85 /* SetUpProfilePictureViewController.swift in Sources */,
 				33B300271FAE662100860E48 /* CustomTextField.swift in Sources */,
 				33B74DE11F9D851C0084C28F /* RegisterViewController.swift in Sources */,
@@ -452,7 +457,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.GbMasca.Eventos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -469,7 +474,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.GbMasca.Eventos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
