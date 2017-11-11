@@ -22,6 +22,9 @@
 		33B74DE81F9DDB760084C28F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B74DE71F9DDB760084C28F /* User.swift */; };
 		33C727D61FB419D900BDD014 /* WelcomeLoggedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C727D51FB419D900BDD014 /* WelcomeLoggedViewController.swift */; };
 		33CABCF01FB05F4500B20C85 /* SetUpProfilePictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CABCEF1FB05F4500B20C85 /* SetUpProfilePictureViewController.swift */; };
+		33FC8F7D1FB55CBF0072A5D1 /* USJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 33FC8F7C1FB55CBF0072A5D1 /* USJSON.json */; };
+		33FC8F7F1FB5719B0072A5D1 /* USCities.txt in Resources */ = {isa = PBXBuildFile; fileRef = 33FC8F7E1FB5719A0072A5D1 /* USCities.txt */; };
+		33FC8F811FB577E40072A5D1 /* LocalizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FC8F801FB577E40072A5D1 /* LocalizationViewController.swift */; };
 		596FA55F178EA1286A05ADBD /* Pods_Eventos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7225E49B554F844870B4B58C /* Pods_Eventos.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +48,9 @@
 		33B74DE71F9DDB760084C28F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		33C727D51FB419D900BDD014 /* WelcomeLoggedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeLoggedViewController.swift; sourceTree = "<group>"; };
 		33CABCEF1FB05F4500B20C85 /* SetUpProfilePictureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpProfilePictureViewController.swift; sourceTree = "<group>"; };
+		33FC8F7C1FB55CBF0072A5D1 /* USJSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = USJSON.json; sourceTree = "<group>"; };
+		33FC8F7E1FB5719A0072A5D1 /* USCities.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = USCities.txt; sourceTree = "<group>"; };
+		33FC8F801FB577E40072A5D1 /* LocalizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationViewController.swift; sourceTree = "<group>"; };
 		7225E49B554F844870B4B58C /* Pods_Eventos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eventos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -84,6 +90,7 @@
 				33C727D01FB4188300BDD014 /* Controller */,
 				33B74DDC1F9D82BE0084C28F /* View */,
 				33C727D41FB4193D00BDD014 /* Module */,
+				33C727D71FB41CC300BDD014 /* Other Files */,
 			);
 			path = Eventos;
 			sourceTree = "<group>";
@@ -109,6 +116,7 @@
 				332090271FA10E1B0079A645 /* SetUpProfileViewController.swift */,
 				33B74DE41F9DD1D20084C28F /* LoggedViewController.swift */,
 				33C727D51FB419D900BDD014 /* WelcomeLoggedViewController.swift */,
+				33FC8F801FB577E40072A5D1 /* LocalizationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -116,7 +124,6 @@
 		33C727D41FB4193D00BDD014 /* Module */ = {
 			isa = PBXGroup;
 			children = (
-				33C727D71FB41CC300BDD014 /* Other Files */,
 				33B74DE71F9DDB760084C28F /* User.swift */,
 				33B300261FAE662100860E48 /* CustomTextField.swift */,
 			);
@@ -126,12 +133,13 @@
 		33C727D71FB41CC300BDD014 /* Other Files */ = {
 			isa = PBXGroup;
 			children = (
+				33FC8F7E1FB5719A0072A5D1 /* USCities.txt */,
+				33FC8F7C1FB55CBF0072A5D1 /* USJSON.json */,
 				33B74DD01F9D82170084C28F /* Assets.xcassets */,
 				33B74DD51F9D82170084C28F /* Info.plist */,
 				33B74DE21F9DC99E0084C28F /* GoogleService-Info.plist */,
 			);
 			name = "Other Files";
-			path = ..;
 			sourceTree = "<group>";
 		};
 		655D568A76949D8336EA354D /* Frameworks */ = {
@@ -214,7 +222,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				33B74DD41F9D82170084C28F /* LaunchScreen.storyboard in Resources */,
+				33FC8F7F1FB5719B0072A5D1 /* USCities.txt in Resources */,
 				33B74DE31F9DC9A10084C28F /* GoogleService-Info.plist in Resources */,
+				33FC8F7D1FB55CBF0072A5D1 /* USJSON.json in Resources */,
 				33B74DD11F9D82170084C28F /* Assets.xcassets in Resources */,
 				33B74DCF1F9D82170084C28F /* Main.storyboard in Resources */,
 			);
@@ -303,6 +313,7 @@
 				3301F58F1FA713CE00A022F3 /* NovoEntryViewController.swift in Sources */,
 				33B74DE51F9DD1D20084C28F /* LoggedViewController.swift in Sources */,
 				33B74DCA1F9D82170084C28F /* AppDelegate.swift in Sources */,
+				33FC8F811FB577E40072A5D1 /* LocalizationViewController.swift in Sources */,
 				332090261FA07E640079A645 /* SetUpPasswordViewController.swift in Sources */,
 				33C727D61FB419D900BDD014 /* WelcomeLoggedViewController.swift in Sources */,
 				33CABCF01FB05F4500B20C85 /* SetUpProfilePictureViewController.swift in Sources */,
